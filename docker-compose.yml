@@ -26,14 +26,13 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://user:password@mongo:27017/
 
   mosquitto:
-    container_name: mosquitto
     image: eclipse-mosquitto
     deploy:
       replicas: 2
+    restart: always
     volumes:
-      - ./config/:/mosquitto/config/:ro
-      - ./log/:/mosquitto/log/
-      - data:/mosquitto/data/
+      - ../DOCKER_MOSQUITTO/config/:/mosquitto/config/:ro
+      - ../DOCKER_MOSQUITTO/log/:/mosquitto/log/
     ports:
       - 1883:1883
       - 9001:9001
@@ -42,25 +41,31 @@ services:
     image: grafana/grafana
     deploy:
       replicas: 2
-    container_name: grafana
+    restart: always
     ports:
       - "3000:3000"
     environment:
       GF_INSTALL_PLUGINS: grafana-simple-json-datasource
-    #volumes:
-    #  - ./provisioning:/etc/grafana/provisioning
+      GF_SECURITY_ADMIN_PASSWORD: password
+
+    volumes:
+      - ../DOCKER_GRAFANA/grafana:/etc/grafana/provisioning/
 
   visualizer:
-    image: visualizer
+    image: dockersamples/visualizer
     deploy:
       replicas: 2
-    build: https://raw.githubusercontent.com/dockersamples/docker-swarm-visualizer/master/Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
 
   backend:
-    image: backend
     deploy:
       replicas: 2
-    build: https://raw.githubusercontent.com/Projet-Stream-Data-Processing/Back-End/main/DockerFile
+    ports:
+      - "8888:8888"
+    restart: always
+    build: ../Back-End
 
 volumes:
   data:
