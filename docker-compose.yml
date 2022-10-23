@@ -60,7 +60,7 @@ services:
     image: backend
     deploy:
       replicas: 2
-    build: https://raw.githubusercontent.com/Projet-Stream-Data-Processing/Back-End/main/DockerFile?token=GHSAT0AAAAAAB2F56UTXOKWV64Z3LXYLVPEY2VNYXA
+    build: https://raw.githubusercontent.com/Projet-Stream-Data-Processing/Back-End/main/DockerFile
 
 volumes:
   data:
