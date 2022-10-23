@@ -35,7 +35,7 @@ services:
       replicas: 2
     restart: always
     volumes:
-      - ../DOCKER_MOSQUITTO/config/:/mosquitto/config/:ro
+      - ../DOCKER_MOSQUITTO/config/:/mosquitto/config/
       - ../DOCKER_MOSQUITTO/log/:/mosquitto/log/
     ports:
       - 1883:1883
