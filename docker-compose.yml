@@ -6,12 +6,14 @@ services:
   mongo:
     image: mongo
     deploy:
-      replicas: 3
+      replicas: 2
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: user 
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: Velov
+    volumes:
+      - ./initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   mongo-express:
     image: mongo-express
@@ -46,7 +48,7 @@ services:
     depends_on:
       - backend
     deploy:
-      replicas: 2
+      replicas: 1
     restart: always
     ports:
       - "3000:3000"
@@ -61,6 +63,9 @@ services:
     image: dockersamples/visualizer
     deploy:
       replicas: 2
+      placement:
+        constraints:
+          - node.role==manager
     ports:
       - "8080:8080"
     volumes:
