@@ -1,0 +1,66 @@
+---
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo
+    deploy:
+      replicas: 3
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user 
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: Velov
+
+  mongo-express:
+    image: mongo-express
+    deploy:
+      replicas: 2
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://user:password@mongo:27017/
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    deploy:
+      replicas: 2
+    volumes:
+      - ./config/:/mosquitto/config/:ro
+      - ./log/:/mosquitto/log/
+      - data:/mosquitto/data/
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  grafana:
+    image: grafana/grafana
+    deploy:
+      replicas: 2
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_INSTALL_PLUGINS: grafana-simple-json-datasource
+    #volumes:
+    #  - ./provisioning:/etc/grafana/provisioning
+
+  visualizer:
+    image: visualizer
+    deploy:
+      replicas: 2
+    build: https://raw.githubusercontent.com/dockersamples/docker-swarm-visualizer/master/Dockerfile
+
+  backend:
+    image: backend
+    deploy:
+      replicas: 2
+    build: https://raw.githubusercontent.com/Projet-Stream-Data-Processing/Back-End/main/DockerFile?token=GHSAT0AAAAAAB2F56UTXOKWV64Z3LXYLVPEY2VNYXA
+
+volumes:
+  data:
