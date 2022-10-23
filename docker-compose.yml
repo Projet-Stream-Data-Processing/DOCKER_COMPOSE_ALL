@@ -53,8 +53,8 @@ services:
       GF_INSTALL_PLUGINS: grafana-simple-json-datasource
       GF_SECURITY_ADMIN_PASSWORD: password
 
-    volumes:
-      - ../DOCKER_GRAFANA/grafana:/etc/grafana/provisioning/
+    #volumes:
+    #  - ../DOCKER_GRAFANA/grafana:/etc/grafana/provisioning/
 
   visualizer:
     image: dockersamples/visualizer
