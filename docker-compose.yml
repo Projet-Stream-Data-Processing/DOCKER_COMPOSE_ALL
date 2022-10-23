@@ -60,12 +60,9 @@ services:
     restart: always
 
   backend:
+    image: camilcll/docker_python
     deploy:
       replicas: 2
     ports:
       - "8888:8888"
     restart: always
-    build: ../Back-End
-
-volumes:
-  data:
