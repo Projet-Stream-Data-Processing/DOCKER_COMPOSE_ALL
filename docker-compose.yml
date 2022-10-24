@@ -6,7 +6,7 @@ services:
   mongo:
     image: mongo
     deploy:
-      replicas: 2
+      replicas: 1
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: user 
@@ -20,7 +20,7 @@ services:
     depends_on:
       - mongo
     deploy:
-      replicas: 2
+      replicas: 1
     restart: always
     ports:
       - 8081:8081
@@ -34,7 +34,7 @@ services:
     depends_on:
       - mongo
     deploy:
-      replicas: 2
+      replicas: 1
     restart: always
     volumes:
       - ../DOCKER_MOSQUITTO/config/:/mosquitto/config/
@@ -61,10 +61,9 @@ services:
   visualizer:
     image: dockersamples/visualizer
     deploy:
-      replicas: 2
       placement:
         constraints:
-          - node.role:manager
+          - "node.role==manager"
     ports:
       - "8080:8080"
     volumes:
@@ -77,7 +76,7 @@ services:
       - mongo
     image: camilcll/docker_python
     deploy:
-      replicas: 2
+      replicas: 1
     ports:
       - "8888:8888"
     restart: always
