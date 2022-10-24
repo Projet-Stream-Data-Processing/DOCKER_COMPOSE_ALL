@@ -13,6 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: Velov
     volumes:
+      - /efs/mongo_db:/data/db
       - /efs/DOCKER_COMPOSE_ALL/initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - 27017:27017
