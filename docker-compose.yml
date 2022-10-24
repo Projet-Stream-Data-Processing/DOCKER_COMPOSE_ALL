@@ -13,7 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: Velov
     volumes:
-      - ./initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - /efs/DOCKER_COMPOSE_ALL/initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   mongo-express:
     image: mongo-express
@@ -37,7 +37,7 @@ services:
       replicas: 1
     restart: always
     volumes:
-      - ../DOCKER_MOSQUITTO/config/:/mosquitto/config/
+      - /efs/DOCKER_MOSQUITTO/config/:/mosquitto/config/
     ports:
       - 1883:1883
       - 9001:9001
@@ -54,7 +54,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: password
 
     volumes:
-      - ../DOCKER_GRAFANA/grafana:/etc/grafana/provisioning/
+      - /efs/DOCKER_GRAFANA/grafana:/etc/grafana/provisioning/
 
   visualizer:
     image: dockersamples/visualizer
