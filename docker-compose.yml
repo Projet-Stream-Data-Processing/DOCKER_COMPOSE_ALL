@@ -46,8 +46,6 @@ services:
     image: grafana/grafana
     depends_on:
       - backend
-    deploy:
-      replicas: 2
     restart: always
     ports:
       - "3000:3000"
